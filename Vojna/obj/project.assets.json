@@ -8,24 +8,19 @@
     "net7.0-windows7.0": []
   },
   "packageFolders": {
-    "C:\\Users\\uzivatel\\.nuget\\packages\\": {},
-    "C:\\Users\\uzivatel\\AppData\\Roaming\\Godot\\mono\\GodotNuGetFallbackFolder": {}
+    "C:\\Users\\hanus\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\dev\\csharp\\Vojna\\Vojna\\Vojna.csproj",
+      "projectUniqueName": "D:\\Vojna\\Vojna\\Vojna.csproj",
       "projectName": "Vojna",
-      "projectPath": "D:\\dev\\csharp\\Vojna\\Vojna\\Vojna.csproj",
-      "packagesPath": "C:\\Users\\uzivatel\\.nuget\\packages\\",
-      "outputPath": "D:\\dev\\csharp\\Vojna\\Vojna\\obj\\",
+      "projectPath": "D:\\Vojna\\Vojna\\Vojna.csproj",
+      "packagesPath": "C:\\Users\\hanus\\.nuget\\packages\\",
+      "outputPath": "D:\\Vojna\\Vojna\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Users\\uzivatel\\AppData\\Roaming\\Godot\\mono\\GodotNuGetFallbackFolder"
-      ],
       "configFilePaths": [
-        "C:\\Users\\uzivatel\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Users\\uzivatel\\AppData\\Roaming\\NuGet\\config\\Godot.Offline.Config"
+        "C:\\Users\\hanus\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net7.0-windows"
@@ -67,7 +62,7 @@
             "privateAssets": "none"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.203\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.302\\RuntimeIdentifierGraph.json"
       }
     }
   }
