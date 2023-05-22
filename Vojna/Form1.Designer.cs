@@ -20,6 +20,35 @@ partial class Form1
         base.Dispose(disposing);
     }
 
+<<<<<<< Updated upstream
+=======
+    private void newButtoN_Click(object sender, System.EventArgs e) {
+        MessageBox.Show("New button clicked");
+        carD_Logic card = new carD_Logic();
+        MessageBox.Show(card.getPlayerCards().ToString());
+    }
+
+    private void InitiliazeViewPort() {
+        Button newButton = new Button();
+        Label winPlayer = new Label();
+        Label winAI = new Label();
+        
+        newButton.Click += new EventHandler(newButtoN_Click);
+        newButton.Text = "Klikni mě";
+        newButton.Location = new Point(350, 300);
+        newButton.Size = new Size(200, 50);
+
+        winPlayer.Location = new Point(100, 50);
+        winPlayer.Text = "0";
+        winAI.Text = "0";
+        winAI.Location = new Point(700, 50);
+        
+        this.Controls.Add(newButton);
+        this.Controls.Add(winAI);
+        this.Controls.Add(winPlayer);
+    }
+    
+>>>>>>> Stashed changes
     #region Windows Form Designer generated code
 
     /// <summary>
