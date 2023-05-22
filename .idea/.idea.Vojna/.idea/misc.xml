@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DiscordProjectSettings">
+    <option name="show" value="ASK" />
+    <option name="description" value="" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "settings.editor.selected.configurable": "preferences.pluginManager"
+  }
+}]]></component>
+  <component name="WindowStateProjectService">
+    <state x="503" y="259" key="Rider.ProjectTemplateDialog.Size" timestamp="1682085523596">
+      <screen x="0" y="0" width="1920" height="1032" />
+    </state>
+    <state x="503" y="259" key="Rider.ProjectTemplateDialog.Size/0.0.1920.1032/-1920.0.1536.816" timestamp="1682085523596" />
+    <state x="508" y="166" key="SettingsEditor" timestamp="1682087598109">
+      <screen x="0" y="0" width="1920" height="1032" />
+    </state>
+    <state x="508" y="166" key="SettingsEditor/0.0.1920.1032/-1920.0.1536.816" timestamp="1682087598109" />
+  </component>
+</project>

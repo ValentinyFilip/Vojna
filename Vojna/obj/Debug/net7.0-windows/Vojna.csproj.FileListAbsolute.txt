@@ -1,0 +1,15 @@
+D:\dev\csharp\Vojna\Vojna\bin\Debug\net7.0-windows\Vojna.exe
+D:\dev\csharp\Vojna\Vojna\bin\Debug\net7.0-windows\Vojna.deps.json
+D:\dev\csharp\Vojna\Vojna\bin\Debug\net7.0-windows\Vojna.runtimeconfig.json
+D:\dev\csharp\Vojna\Vojna\bin\Debug\net7.0-windows\Vojna.dll
+D:\dev\csharp\Vojna\Vojna\bin\Debug\net7.0-windows\Vojna.pdb
+D:\dev\csharp\Vojna\Vojna\obj\Debug\net7.0-windows\Vojna.csproj.AssemblyReference.cache
+D:\dev\csharp\Vojna\Vojna\obj\Debug\net7.0-windows\Vojna.GeneratedMSBuildEditorConfig.editorconfig
+D:\dev\csharp\Vojna\Vojna\obj\Debug\net7.0-windows\Vojna.AssemblyInfoInputs.cache
+D:\dev\csharp\Vojna\Vojna\obj\Debug\net7.0-windows\Vojna.AssemblyInfo.cs
+D:\dev\csharp\Vojna\Vojna\obj\Debug\net7.0-windows\Vojna.csproj.CoreCompileInputs.cache
+D:\dev\csharp\Vojna\Vojna\obj\Debug\net7.0-windows\Vojna.dll
+D:\dev\csharp\Vojna\Vojna\obj\Debug\net7.0-windows\refint\Vojna.dll
+D:\dev\csharp\Vojna\Vojna\obj\Debug\net7.0-windows\Vojna.pdb
+D:\dev\csharp\Vojna\Vojna\obj\Debug\net7.0-windows\Vojna.genruntimeconfig.cache
+D:\dev\csharp\Vojna\Vojna\obj\Debug\net7.0-windows\ref\Vojna.dll
