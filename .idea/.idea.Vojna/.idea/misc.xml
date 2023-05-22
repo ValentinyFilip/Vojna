@@ -4,11 +4,6 @@
     <option name="show" value="ASK" />
     <option name="description" value="" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "settings.editor.selected.configurable": "preferences.pluginManager"
-  }
-}]]></component>
   <component name="WindowStateProjectService">
     <state x="503" y="259" key="Rider.ProjectTemplateDialog.Size" timestamp="1682085523596">
       <screen x="0" y="0" width="1920" height="1032" />
