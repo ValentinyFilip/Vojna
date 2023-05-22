@@ -1,5 +1,6 @@
 ﻿namespace Vojna;
 
+
 partial class Form1
 {
     /// <summary>
