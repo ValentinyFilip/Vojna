@@ -21,18 +21,15 @@ partial class Form1
     }
 
     private void newButtoN_Click(object sender, System.EventArgs e) {
-        /*
-         * play card
-         * check if cards are same then play war
-         * check who has higher value
-         */
+        Vars.game.OnePlay();
     }
 
     private void InitiliazeViewPort() {
         Button newButton = new Button();
         Label winPlayer = new Label();
         Label winAI = new Label();
-        
+
+
         newButton.Click += new EventHandler(newButtoN_Click);
         newButton.Text = "Klikni mě";
         newButton.Location = new Point(350, 300);
@@ -46,6 +43,9 @@ partial class Form1
         this.Controls.Add(newButton);
         this.Controls.Add(winAI);
         this.Controls.Add(winPlayer);
+
+        Vars.game = new WarDeck();
+        Vars.game.InitiliazeDecks();
     }
     
     #region Windows Form Designer generated code

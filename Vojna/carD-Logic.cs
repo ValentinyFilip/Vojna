@@ -20,6 +20,66 @@ public class WarCard : Card {
 /// A standard deck for the game of War.
 /// </summary>
 public class WarDeck : Deck {
+    public void InitiliazeDecks() {
+        WarDeck mainDeck = new WarDeck ();
+        mainDeck.GenerateDeck();
+        mainDeck.ShuffleDeck();
+
+        bool Toggle = false;
+        
+        foreach (WarCard card in mainDeck.Stack) {
+            if (Toggle) {
+                Vars.Decks[0].Stack.Add(card);
+            } else {
+                Vars.Decks[1].Stack.Add(card);
+            }
+            Toggle = !Toggle;
+        }
+        
+    }
+
+    public void OnePlay() {
+        WarCard playerDraw = (WarCard) Vars.Decks[0].DrawCard();
+        WarCard aiDraw = (WarCard) Vars.Decks[1].DrawCard();
+
+        
+        if ( playerDraw.GetFaceValue() > aiDraw.GetFaceValue()) {
+            //Console.WriteLine ("The Player has won the cards.\n\n");
+            Vars.Decks[0].PlaceInDeck (playerDraw, aiDraw);
+        } else if ( playerDraw.GetFaceValue() < aiDraw.GetFaceValue()) {
+            //Console.WriteLine ("The Computer has won the cards.\n\n");
+            Vars.Decks[1].PlaceInDeck (playerDraw, aiDraw);
+        } else {
+            //Console.WriteLine ("It's a war!\n\n");
+            int won = War();
+            if (won == 0) {
+                //Console.WriteLine ("The Player has won the cards.\n\n");
+                Vars.Decks[0].PlaceInDeck (playerDraw, aiDraw);
+            } else {
+                Vars.Decks[1].PlaceInDeck (playerDraw, aiDraw);
+            }
+        }
+    }
+
+    private int War() {
+        int playerWarTotal = new int();
+        int aiWarTotal = new int();
+        int won;
+        
+        for (int i = 0; i < 3; i++) {
+            playerWarTotal += ((WarCard) Vars.Decks[0].DrawCard()).GetFaceValue();
+            aiWarTotal += ((WarCard) Vars.Decks[1].DrawCard()).GetFaceValue();
+        }
+
+        if (playerWarTotal > aiWarTotal) {
+            won = 0;
+        } else  {
+            won = 1;
+        }
+
+        return won;
+    }
+
     public override void GenerateDeck() {
         // Creation of each card suite deck chunk
         for (int k = 0; k < 4; k++) {

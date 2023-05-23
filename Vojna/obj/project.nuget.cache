@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "/62p8iZB6jM6k8hI8MXizZAydRLJI5eQ8zlYgE7tmK7CKU+jOCcJdXjfkqQDlSFGDffAwSGCJ5LdaOS0xE0jiQ==",
+  "dgSpecHash": "INjSzLApF9tp84X1fEookTHm2xVJdjKUHPR2T/13fVqVKRtXyT4tDaNd3d3BCf2zbWy1VzR54FgmKNi1TjiZlw==",
   "success": true,
-  "projectFilePath": "D:\\Vojna\\Vojna\\Vojna.csproj",
+  "projectFilePath": "D:\\dev\\csharp\\Vojna\\Vojna\\Vojna.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }
