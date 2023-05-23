@@ -1,6 +1,5 @@
 ﻿namespace Vojna;
 
-
 partial class Form1
 {
     /// <summary>
@@ -22,7 +21,11 @@ partial class Form1
     }
 
     private void newButtoN_Click(object sender, System.EventArgs e) {
-        MessageBox.Show("New button clicked");
+        /*
+         * play card
+         * check if cards are same then play war
+         * check who has higher value
+         */
     }
 
     private void InitiliazeViewPort() {
