@@ -43,15 +43,51 @@ public class carD_Logic
         return valuesToReturn;
     }
 
-    public List<string> evaluateResults(WarCard playerOneDraw, WarCard playerTwoCard)
+    public int war()
+    {
+        int playerOneWarTotal = new int();
+        int playerTwoWarTotal = new int();
+        Card playerOneCard;
+        Card playerTwoCard;
+        int won = 0;
+        vars.warDeck = new List<Card>();
+        
+        do
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                playerOneCard = (WarCard)vars.playerOne.drawCard();
+                playerOneWarTotal += playerOneCard.getFaceValue();
+                playerTwoCard = (WarCard)vars.playerTwo.drawCard();
+                playerTwoWarTotal += playerTwoCard.getFaceValue();
+                vars.warDeck.Add(playerOneCard);
+                vars.warDeck.Add(playerTwoCard);
+                
+            }
+
+            if (playerOneWarTotal > playerTwoWarTotal) 
+            {
+                won = 1;
+                vars.playerOne.placeInDeckFromList(vars.warDeck);
+            } 
+            else if (playerOneWarTotal < playerTwoWarTotal)
+            {
+                won = 2;
+            }
+        } while (won != 0);
+        
+        return won;
+    }
+    
+    public List<string> evaluateResults(WarCard playerOneCard, WarCard playerTwoCard)
     {
         List<string> result = new List<string>();
-        if ((int) playerOneDraw.face > (int) playerTwoCard.face) {
-            vars.playerOne.placeInDeck (playerOneDraw, playerTwoCard);
+        if ((int) playerOneCard.face > (int) playerTwoCard.face) {
+            vars.playerOne.placeInDeck (playerOneCard, playerTwoCard);
             result.Add("The Player one has won the cards.\nThe cards have been placed in your deck.\n;\n");
             result.Add("1");
-        } else if ((int) playerOneDraw.face < (int) playerTwoCard.face) {
-            vars.playerTwo.placeInDeck (playerOneDraw, playerTwoCard);
+        } else if ((int) playerOneCard.face < (int) playerTwoCard.face) {
+            vars.playerTwo.placeInDeck (playerOneCard, playerTwoCard);
             result.Add("The Player two has won the cards.\nThe cards have been placed in the yours deck.\n\n");
             result.Add("2");
         } else {
@@ -118,6 +154,14 @@ public class carD_Logic
             return (popCard);
         }
 
+        public void placeInDeckFromList(Card deck)
+        {
+            foreach (Card card in deck)
+            {
+                
+            }
+        }
+        
         public override void placeInDeck(Card c1, Card c2)
         {
             stack.Add(c1);
