@@ -45,6 +45,7 @@ public class carD_Logic
 
     public int war()
     {
+        WarDeck warDeck = new WarDeck();
         int playerOneWarTotal = new int();
         int playerTwoWarTotal = new int();
         Card playerOneCard;
@@ -52,30 +53,55 @@ public class carD_Logic
         int won = 0;
         vars.warDeck = new List<Card>();
         
+        if (vars.playerOne.isEmpty())
+        {
+            return 20;
+        }
+
+        if (vars.playerTwo.isEmpty())
+        {
+            return 10;
+        }
+
         do
         {
             for (int i = 0; i < 3; i++)
             {
-                playerOneCard = (WarCard)vars.playerOne.drawCard();
-                playerOneWarTotal += playerOneCard.getFaceValue();
-                playerTwoCard = (WarCard)vars.playerTwo.drawCard();
-                playerTwoWarTotal += playerTwoCard.getFaceValue();
-                vars.warDeck.Add(playerOneCard);
-                vars.warDeck.Add(playerTwoCard);
                 
+                try {
+                    playerOneCard = (WarCard)vars.playerOne.drawCard();
+                    playerOneWarTotal += playerOneCard.getFaceValue();
+                }
+                catch (Exception e) {
+                    Console.WriteLine(e);
+                    throw;
+                }
+
+                try {
+                    playerTwoCard = (WarCard)vars.playerTwo.drawCard();
+                    playerTwoWarTotal += playerTwoCard.getFaceValue();
+                }
+                catch (Exception e) {
+                    Console.WriteLine(e);
+                    throw;
+                }
+                warDeck.placeInDeck(playerOneCard, playerTwoCard);
             }
 
+            
             if (playerOneWarTotal > playerTwoWarTotal) 
             {
-                won = 1;
+                MessageBox.Show("more prvni cyp vyhral");
                 vars.playerOne.placeInDeckFromList(vars.warDeck);
+                return 1;
             } 
             else if (playerOneWarTotal < playerTwoWarTotal)
             {
-                won = 2;
+                MessageBox.Show("more druhy cyp vyhral");
                 vars.playerTwo.placeInDeckFromList(vars.warDeck);
+                return 2;
             }
-        } while (won != 0);
+        } while (true);
         
         return won;
     }
@@ -149,8 +175,17 @@ public class carD_Logic
 
         public override Card drawCard()
         {
-            WarCard popCard = (WarCard)stack[0];
-            stack.Remove(popCard);
+            WarCard popCard;
+            try
+            {
+                popCard = (WarCard)stack[0];
+                stack.Remove(popCard);
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
+            
 
             return (popCard);
         }

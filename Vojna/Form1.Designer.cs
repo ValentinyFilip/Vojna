@@ -44,9 +44,31 @@ partial class Form1
         }
         else
         {
-            vars.game.war();
+            int result = vars.game.war();
+            if (result == 1)
+            {
+                int.TryParse(vars.winPlayerOne.Text, out num);
+                num += 1;
+                notNum = num.ToString();
+                vars.winPlayerOne.Text = notNum;
+            }
+            else if (result == 2)
+            {
+                int.TryParse(vars.winPlayerTwo.Text, out num);
+                num += 1;
+                notNum = num.ToString();
+                vars.winPlayerTwo.Text = notNum;
+            }
+            else if (result == 10)
+            {
+                MessageBox.Show("Player 1 won");
+            }
+            else
+            {
+                MessageBox.Show("Player 2 won");
+            }
         }
-        
+
     }
 
     public void InitiliazeViewPort() {
@@ -72,6 +94,8 @@ partial class Form1
         vars.game.initialize();
         
         
+        System.Media.SoundPlayer sp = new System.Media.SoundPlayer("D:/Vojna/Vojna/bangr.wav");
+        sp.PlayLooping();
     }
     
     #region Windows Form Designer generated code
