@@ -43,15 +43,78 @@ public class carD_Logic
         return valuesToReturn;
     }
 
-    public List<string> evaluateResults(WarCard playerOneDraw, WarCard playerTwoCard)
+    public int war()
+    {
+        WarDeck warDeck = new WarDeck();
+        int playerOneWarTotal = new int();
+        int playerTwoWarTotal = new int();
+        Card playerOneCard;
+        Card playerTwoCard;
+        int won = 0;
+        vars.warDeck = new List<Card>();
+        
+        if (vars.playerOne.isEmpty())
+        {
+            return 20;
+        }
+
+        if (vars.playerTwo.isEmpty())
+        {
+            return 10;
+        }
+
+        do
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                
+                try {
+                    playerOneCard = (WarCard)vars.playerOne.drawCard();
+                    playerOneWarTotal += playerOneCard.getFaceValue();
+                }
+                catch (Exception e) {
+                    Console.WriteLine(e);
+                    throw;
+                }
+
+                try {
+                    playerTwoCard = (WarCard)vars.playerTwo.drawCard();
+                    playerTwoWarTotal += playerTwoCard.getFaceValue();
+                }
+                catch (Exception e) {
+                    Console.WriteLine(e);
+                    throw;
+                }
+                warDeck.placeInDeck(playerOneCard, playerTwoCard);
+            }
+
+            
+            if (playerOneWarTotal > playerTwoWarTotal) 
+            {
+                MessageBox.Show("more prvni cyp vyhral");
+                vars.playerOne.placeInDeckFromList(vars.warDeck);
+                return 1;
+            } 
+            else if (playerOneWarTotal < playerTwoWarTotal)
+            {
+                MessageBox.Show("more druhy cyp vyhral");
+                vars.playerTwo.placeInDeckFromList(vars.warDeck);
+                return 2;
+            }
+        } while (true);
+        
+        return won;
+    }
+    
+    public List<string> evaluateResults(WarCard playerOneCard, WarCard playerTwoCard)
     {
         List<string> result = new List<string>();
-        if ((int) playerOneDraw.face > (int) playerTwoCard.face) {
-            vars.playerOne.placeInDeck (playerOneDraw, playerTwoCard);
+        if ((int) playerOneCard.face > (int) playerTwoCard.face) {
+            vars.playerOne.placeInDeck (playerOneCard, playerTwoCard);
             result.Add("The Player one has won the cards.\nThe cards have been placed in your deck.\n;\n");
             result.Add("1");
-        } else if ((int) playerOneDraw.face < (int) playerTwoCard.face) {
-            vars.playerTwo.placeInDeck (playerOneDraw, playerTwoCard);
+        } else if ((int) playerOneCard.face < (int) playerTwoCard.face) {
+            vars.playerTwo.placeInDeck (playerOneCard, playerTwoCard);
             result.Add("The Player two has won the cards.\nThe cards have been placed in the yours deck.\n\n");
             result.Add("2");
         } else {
@@ -112,12 +175,30 @@ public class carD_Logic
 
         public override Card drawCard()
         {
-            WarCard popCard = (WarCard)stack[0];
-            stack.Remove(popCard);
+            WarCard popCard;
+            try
+            {
+                popCard = (WarCard)stack[0];
+                stack.Remove(popCard);
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
+            
 
             return (popCard);
         }
 
+        public void placeInDeckFromList(List<Card> deck)
+        {
+            foreach (Card card in deck)
+            {
+                stack.Add(card);
+            }
+            shuffleDeck();
+        }
+        
         public override void placeInDeck(Card c1, Card c2)
         {
             stack.Add(c1);
