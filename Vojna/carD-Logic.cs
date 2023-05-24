@@ -154,12 +154,13 @@ public class carD_Logic
             return (popCard);
         }
 
-        public void placeInDeckFromList(Card deck)
+        public void placeInDeckFromList(List<Card> deck)
         {
             foreach (Card card in deck)
             {
-                
+                stack.Add(card);
             }
+            shuffleDeck();
         }
         
         public override void placeInDeck(Card c1, Card c2)
