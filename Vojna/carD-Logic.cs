@@ -73,6 +73,7 @@ public class carD_Logic
             else if (playerOneWarTotal < playerTwoWarTotal)
             {
                 won = 2;
+                vars.playerTwo.placeInDeckFromList(vars.warDeck);
             }
         } while (won != 0);
         
