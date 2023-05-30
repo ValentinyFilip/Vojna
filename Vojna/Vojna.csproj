@@ -9,7 +9,10 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Compile Update="leaderBoardForm.cs">
+      <Compile Update="cardForm.cs">
+        <SubType>Form</SubType>
+      </Compile>
+      <Compile Update="WinForm.cs">
         <SubType>Form</SubType>
       </Compile>
     </ItemGroup>

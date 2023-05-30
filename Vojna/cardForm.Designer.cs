@@ -2,10 +2,7 @@
 
 namespace Vojna; 
 
-partial class leaderBoardForm {
-    private Label WinPlayerOne;
-    private Label WinPlayerTwo;
-    
+partial class cardForm {
     /// <summary>
     /// Required designer variable.
     /// </summary>
@@ -24,17 +21,24 @@ partial class leaderBoardForm {
     }
 
     public void InitiliazeViewPort() {
-        WinPlayerOne = new Label();
-        WinPlayerTwo = new Label();
-        
-        WinPlayerOne.Location = new Point(100, 50);
+        Label WinPlayerOne = new Label();
+        Label WinPlayerTwo = new Label();
+        Label PlayerOneCard = new Label();
+        Label PlayerTwoCard = new Label();
+
         WinPlayerOne.Text = Vars.PlayerOne.Wins.ToString();
         WinPlayerTwo.Text = Vars.PlayerTwo.Wins.ToString();
-        WinPlayerTwo.Location = new Point(700, 50);
+        PlayerOneCard.Text = Vars.PlayerOneCard.suite + "/" + Vars.PlayerOneCard.face;
+        PlayerTwoCard.Text = Vars.PlayerTwoCard.suite + "/" + Vars.PlayerTwoCard.face;
         
-        this.Controls.Add(WinPlayerOne);
-        this.Controls.Add(WinPlayerTwo);
+        WinPlayerOne.Location = new Point(50, 50);
+        WinPlayerTwo.Location = new Point(200, 50);
+        PlayerOneCard.Location = new Point(50, 250);
+        PlayerTwoCard.Location = new Point(200, 250);
         
+        this.Controls.AddRange(new Control[]{
+            WinPlayerOne, WinPlayerTwo, PlayerOneCard, PlayerTwoCard
+        });
     }
     
     #region Windows Form Designer generated code
@@ -46,8 +50,8 @@ partial class leaderBoardForm {
     private void InitializeComponent() {
         this.components = new System.ComponentModel.Container();
         this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-        this.ClientSize = new System.Drawing.Size(800, 450);
-        this.Text = "leaderBoardForm";
+        this.ClientSize = new System.Drawing.Size(300, 400);
+        this.Text = "card";
     }
 
     #endregion

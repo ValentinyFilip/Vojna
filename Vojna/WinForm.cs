@@ -2,8 +2,8 @@
 
 namespace Vojna; 
 
-public partial class leaderBoardForm : Form {
-    public leaderBoardForm() {
+public partial class WinForm : Form {
+    public WinForm() {
         InitializeComponent();
         InitiliazeViewPort();
     }

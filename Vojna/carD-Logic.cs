@@ -88,6 +88,9 @@ public class CarDLogic
                         return 2;
                     }
                 }
+                else {
+                    return 0;
+                }
                 
             } while (false);
         }
@@ -96,16 +99,23 @@ public class CarDLogic
     
     public int EvaluateResults(WarCard playerOneCard, WarCard playerTwoCard)
     {
-        int result;
-        if ( playerOneCard.GetFaceValue() > playerTwoCard.GetFaceValue()) {
-            Vars.PlayerOne.PlaceInDeck (playerOneCard, playerTwoCard);
-            result = 1;
-        } else if ( playerOneCard.GetFaceValue() < playerTwoCard.GetFaceValue()) {
-            Vars.PlayerTwo.PlaceInDeck (playerOneCard, playerTwoCard);
-            result = 2;
-        } else {
-            result = 3;
+        int result = 0;
+        Vars.PlayerOneCard = playerOneCard;
+        Vars.PlayerTwoCard = playerTwoCard;
+        if (!Vars.PlayerOne.IsEmpty() && !Vars.PlayerTwo.IsEmpty()) {
+            if ( playerOneCard.GetFaceValue() > playerTwoCard.GetFaceValue()) {
+                Vars.PlayerOne.PlaceInDeck (playerOneCard, playerTwoCard);
+                result = 1;
+            } else if ( playerOneCard.GetFaceValue() < playerTwoCard.GetFaceValue()) {
+                Vars.PlayerTwo.PlaceInDeck (playerOneCard, playerTwoCard);
+                result = 2;
+                
+            }
+            else {
+                result = 3;
+            }
         }
+
         return result;
     }
     

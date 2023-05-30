@@ -6,11 +6,9 @@ namespace Vojna;
 partial class Form1 {
     private Label WinPlayerOne;
     private Label WinPlayerTwo;
-    private Thread _thread;
-
-    public delegate void Changetext(String playerOne, String playerTwo);
-
-    public Changetext myDelegate;
+    private cardForm _cardForm;
+    private WinForm _winForm;
+    private Button _playbutton;
 
     /// <summary>
     ///  Required designer variable.
@@ -30,47 +28,78 @@ partial class Form1 {
         base.Dispose(disposing);
     }
 
-    private void saveButton_Click(object sender, System.EventArgs e) {
-        InitiliazeLeaderBoard();
+    private void help_click(object sender, System.EventArgs e) {
+        MessageBox.Show("Klikej dokud nevyhraješ \n Adam Hanusek, Filip Valentíny");
     }
 
     private void playButton_Click(object sender, System.EventArgs e) {
-        _thread = new Thread(new ThreadStart(ThreadFunction));
-        _thread.Start();
+        if (Vars.end == false) {
+            List<CarDLogic.WarCard> cards = Vars.Game.DrawCard();
+                    
+            int roundResults = Vars.Game.EvaluateResults(cards[0], cards[1]);
+            if (roundResults == 1) {
+                Vars.PlayerOne.Wins += 1;
+            }
+            else if (roundResults == 2)
+            {
+                Vars.PlayerTwo.Wins += 1;
+            }
+            else if (roundResults == 0) {
+                Vars.end = true;
+            }
+            else {
+                roundResults = Vars.Game.War();
+                if (roundResults == 1) {
+                    Vars.PlayerOne.Wins += 1;
+                }
+                else if (roundResults == 0) {
+                    Vars.end = true;
+                }
+                else {
+                    Vars.PlayerTwo.Wins += 1;
+                }
+            }
+            if (_cardForm != null) {
+                _cardForm.Close();
+            }
+            _cardForm = new cardForm();
+            _cardForm.Show();
+        }
+        else {
+            _cardForm.Close();
+            if (_winForm == null) {
+                _winForm = new WinForm();
+                _winForm.Show();
+            }
+        }
     }
-
-    public void InitiliazeLeaderBoard() {
-        var leaderBoardForm = new leaderBoardForm();
-        leaderBoardForm.Show();
-    }
-
+    
     public void InitiliazeViewPort() {
-        Button playButton = new Button();
-        Button saveButton = new Button();
+        _playbutton = new Button();
         WinPlayerOne = new Label();
         WinPlayerTwo = new Label();
+        Button help = new Button();
 
-        playButton.Click += new EventHandler(playButton_Click);
-        playButton.Text = "Draw a card";
-        playButton.Location = new Point(350, 300);
-        playButton.Size = new Size(200, 50);
+        _playbutton.Click += new EventHandler(playButton_Click);
+        _playbutton.Text = "Draw a card";
+        _playbutton.Location = new Point(25, 100);
+        _playbutton.Size = new Size(200, 50);
         
-        saveButton.Click += new EventHandler(saveButton_Click);
-        saveButton.Text = "Save score";
-        saveButton.Location = new Point(50, 300);
-        saveButton.Size = new Size(200, 50);
+        help.Click += new EventHandler(help_click);
+        help.Text = "Shoe help";
+        help.Location = new Point(75, 50);
+        help.Size = new Size(100, 25);
 
         WinPlayerOne.Location = new Point(100, 50);
         WinPlayerOne.Text = "0";
         WinPlayerTwo.Text = "0";
         WinPlayerTwo.Location = new Point(700, 50);
         
-        this.Controls.Add(playButton);
-        this.Controls.Add(saveButton);
+        this.Controls.Add(_playbutton);
+        this.Controls.Add(help);
         
         Vars.Game = new CarDLogic();
         Vars.Game.Initialize();
-        myDelegate = new Changetext(ChangeTextFunc);
         string sCurrentDirectory = AppDomain.CurrentDomain.BaseDirectory;
         string sFile = Path.Combine(sCurrentDirectory, @"..\..\..\bangr.wav");
         string sFilePath = Path.GetFullPath(sFile);
@@ -78,15 +107,22 @@ partial class Form1 {
         sp.PlayLooping();
     }
 
-    private void ChangeTextFunc(String playerOne, String playerTwo) {
-        WinPlayerOne.Text = playerOne;
-        WinPlayerTwo.Text = playerTwo;
+    private void DrawCardForm(Boolean end) {
+        if (end == false) {
+            if (_cardForm != null) {
+                _cardForm.Close();
+            }
+            _cardForm = new cardForm();
+            _cardForm.Show();
+        }
+        else {
+            _cardForm.Close();
+            MessageBox.Show("bla");
+            _winForm = new WinForm();
+            _winForm.Show();
+        }
     }
-
-    private void ThreadFunction() {
-        MyThreadClass myThreadObject = new MyThreadClass(this);
-        myThreadObject.Run();
-    }
+    
     
     #region Windows Form Designer generated code
 
@@ -97,46 +133,9 @@ partial class Form1 {
     private void InitializeComponent() {
         this.components = new System.ComponentModel.Container();
         this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-        this.ClientSize = new System.Drawing.Size(800, 450);
+        this.ClientSize = new System.Drawing.Size(250, 250);
         this.Text = "Vojna";
     }
 
     #endregion
-}
-
-class MyThreadClass {
-    private Form1 myForm1;
-
-    public MyThreadClass(Form1 myForm) {
-        myForm1 = myForm;
-    }
-
-    private void Round() {
-        List<CarDLogic.WarCard> cards = Vars.Game.DrawCard();
-        int roundResults = Vars.Game.EvaluateResults(cards[0], cards[1]);
-        if (roundResults == 1) {
-            Vars.PlayerOne.Wins += 1;
-        }
-        else if (roundResults == 2)
-        {
-            Vars.PlayerTwo.Wins += 1;
-        }
-        else {
-            roundResults = Vars.Game.War();
-            if (roundResults == 1) {
-                Vars.PlayerOne.Wins += 1;
-            }
-            else if (roundResults == 0) {
-                MessageBox.Show("one of the players run out of cards. Save your score"); 
-            }
-            else {
-                Vars.PlayerTwo.Wins += 1;
-            }
-        }
-    }
-    
-    public void Run() {
-        Round();
-        myForm1.BeginInvoke(myForm1.myDelegate,new Object[] {Vars.PlayerOne.Wins.ToString(), Vars.PlayerTwo.Wins.ToString()});
-    }
 }
