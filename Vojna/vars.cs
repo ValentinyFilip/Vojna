@@ -1,13 +1,10 @@
 ﻿namespace Vojna;
 
-public static class vars
+public static class Vars
 {
-    public static carD_Logic.WarDeck mainDeck;
-    public static carD_Logic.WarDeck playerOne;
-    public static carD_Logic.WarDeck playerTwo;
-    public static int totalMoves;
-    public static carD_Logic game;
-    public static Label winPlayerOne;
-    public static Label winPlayerTwo;
-    public static List<carD_Logic.Card> warDeck;
+    public static CarDLogic.WarDeck MainDeck;
+    public static CarDLogic.WarDeck PlayerOne;
+    public static CarDLogic.WarDeck PlayerTwo;
+    public static int TotalMoves;
+    public static CarDLogic Game;
 }

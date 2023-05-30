@@ -1,98 +1,110 @@
 ﻿namespace Vojna;
 
-public class carD_Logic
+public class CarDLogic
 {
-    public void initialize()
+    public void Initialize()
     {
-        vars.totalMoves = 0;
-        vars.mainDeck = new WarDeck();
-        vars.mainDeck.generateDeck();
-        vars.mainDeck.shuffleDeck ();
+        Vars.TotalMoves = 0;
+        Vars.MainDeck = new WarDeck();
+        Vars.MainDeck.GenerateDeck();
+        Vars.MainDeck.ShuffleDeck ();
 
         // Split deck into 2 (1 for each player)
-        vars.playerOne = new WarDeck();
-        vars.playerTwo = new WarDeck();
+        Vars.PlayerOne = new WarDeck();
+        Vars.PlayerTwo = new WarDeck();
         bool toggle = false;
 
-        foreach (WarCard card in vars.mainDeck.stack)
+        foreach (WarCard card in Vars.MainDeck.Stack)
         {
             if (toggle)
             {
-                vars.playerOne.stack.Add(card);
+                Vars.PlayerOne.Stack.Add(card);
             }
             else
             {
-                vars.playerTwo.stack.Add(card);
+                Vars.PlayerTwo.Stack.Add(card);
             }
 
             toggle = !toggle;
         }
     }
 
-    public List<WarCard> drawCard()
+    public List<WarCard> DrawCard()
     {
         List<WarCard> valuesToReturn = new List<WarCard>();
-        if (!vars.playerOne.isEmpty() && !vars.playerTwo.isEmpty())
+        if (!Vars.PlayerOne.IsEmpty() && !Vars.PlayerTwo.IsEmpty())
         {
-            WarCard playerOneDraw = (WarCard) vars.playerOne.drawCard ();
-            WarCard playerTwoDraw = (WarCard) vars.playerTwo.drawCard ();
-            vars.totalMoves++;
+            WarCard playerOneDraw = (WarCard) Vars.PlayerOne.DrawCard ();
+            WarCard playerTwoDraw = (WarCard) Vars.PlayerTwo.DrawCard ();
+            Vars.TotalMoves++;
             valuesToReturn.Add(playerOneDraw);
             valuesToReturn.Add(playerTwoDraw);
         }
         return valuesToReturn;
     }
 
-    public int war()
+    public int War()
     {
         int playerOneWarTotal = new int();
         int playerTwoWarTotal = new int();
         Card playerOneCard;
         Card playerTwoCard;
         int won = 0;
-        vars.warDeck = new List<Card>();
-        
-        do
-        {
-            for (int i = 0; i < 3; i++)
+        WarDeck warDeck = new WarDeck();
+        if (!Vars.PlayerOne.IsEmpty() && !Vars.PlayerTwo.IsEmpty()) {
+            do
             {
-                playerOneCard = (WarCard)vars.playerOne.drawCard();
-                playerOneWarTotal += playerOneCard.getFaceValue();
-                playerTwoCard = (WarCard)vars.playerTwo.drawCard();
-                playerTwoWarTotal += playerTwoCard.getFaceValue();
-                vars.warDeck.Add(playerOneCard);
-                vars.warDeck.Add(playerTwoCard);
+                if (!Vars.PlayerOne.IsEmpty() && !Vars.PlayerTwo.IsEmpty()) {
+                    for (int i = 0; i < 3; i++)
+                    {
+                        try {
+                            playerOneCard = (WarCard)Vars.PlayerOne.DrawCard();
+                            playerOneWarTotal += playerOneCard.GetFaceValue();
+                        }
+                        catch (Exception e) {
+                            Console.WriteLine(e);
+                            throw;
+                        }
+                    
+                        try {
+                            playerTwoCard = (WarCard)Vars.PlayerTwo.DrawCard();
+                            playerTwoWarTotal += playerTwoCard.GetFaceValue();
+                        }
+                        catch (Exception e) {
+                            Console.WriteLine(e);
+                            throw;
+                        }
+                        warDeck.PlaceInDeck(playerOneCard, playerTwoCard);
+                    }
+                    
+                    if (playerOneWarTotal > playerTwoWarTotal) 
+                    {
+                        Vars.PlayerOne.PlaceInDeckFromList(warDeck);
+                        return 1;
+                    } 
+                    if (playerOneWarTotal < playerTwoWarTotal)
+                    {
+                        Vars.PlayerTwo.PlaceInDeckFromList(warDeck);
+                        return 2;
+                    }
+                }
                 
-            }
-
-            if (playerOneWarTotal > playerTwoWarTotal) 
-            {
-                won = 1;
-                vars.playerOne.placeInDeckFromList(vars.warDeck);
-            } 
-            else if (playerOneWarTotal < playerTwoWarTotal)
-            {
-                won = 2;
-            }
-        } while (won != 0);
-        
+            } while (false);
+        }
         return won;
     }
     
-    public List<string> evaluateResults(WarCard playerOneCard, WarCard playerTwoCard)
+    public int EvaluateResults(WarCard playerOneCard, WarCard playerTwoCard)
     {
-        List<string> result = new List<string>();
-        if ((int) playerOneCard.face > (int) playerTwoCard.face) {
-            vars.playerOne.placeInDeck (playerOneCard, playerTwoCard);
-            result.Add("The Player one has won the cards.\nThe cards have been placed in your deck.\n;\n");
-            result.Add("1");
-        } else if ((int) playerOneCard.face < (int) playerTwoCard.face) {
-            vars.playerTwo.placeInDeck (playerOneCard, playerTwoCard);
-            result.Add("The Player two has won the cards.\nThe cards have been placed in the yours deck.\n\n");
-            result.Add("2");
+        int result;
+        if ( playerOneCard.GetFaceValue() > playerTwoCard.GetFaceValue()) {
+            Vars.PlayerOne.PlaceInDeck (playerOneCard, playerTwoCard);
+            result = 1;
+        } else if ( playerOneCard.GetFaceValue() < playerTwoCard.GetFaceValue()) {
+            Vars.PlayerTwo.PlaceInDeck (playerOneCard, playerTwoCard);
+            result = 2;
         } else {
-            result.Add("It's a war!\n\n");
-            result.Add("3");
+            result = 3;
         }
         return result;
     }
@@ -103,12 +115,12 @@ public class carD_Logic
         {
         }
 
-        public override void printCard()
+        public override void PrintCard()
         {
             throw new NotImplementedException();
         }
 
-        public override int getFaceValue()
+        public override int GetFaceValue()
         {
             return ((int)suite);
         }
@@ -119,7 +131,8 @@ public class carD_Logic
     /// </summary>
     public class WarDeck : Deck
     {
-        public override void generateDeck()
+        public int Wins;
+        public override void GenerateDeck()
         {
             // Creation of each card suite deck chunk
             for (int k = 0; k < 4; k++)
@@ -127,52 +140,52 @@ public class carD_Logic
                 // Creation of the individual card
                 for (int i = 1; i < 14; i++)
                 {
-                    stack.Add(new WarCard((Card.Suite)k, (Card.Face)i));
+                    Stack.Add(new WarCard((Card.Suite)k, (Card.Face)i));
                 }
             }
         }
 
-        public override void shuffleDeck()
+        public override void ShuffleDeck()
         {
             Random rng = new Random();
 
-            for (int i = stack.Count - 1; i > 1; i--)
+            for (int i = Stack.Count - 1; i > 1; i--)
             {
                 int k = rng.Next(i);
 
-                WarCard v = (WarCard)stack[k];
-                stack[k] = stack[i];
-                stack[i] = v;
+                WarCard v = (WarCard)Stack[k];
+                Stack[k] = Stack[i];
+                Stack[i] = v;
             }
         }
 
-        public override Card drawCard()
+        public override Card DrawCard()
         {
-            WarCard popCard = (WarCard)stack[0];
-            stack.Remove(popCard);
+            WarCard popCard = (WarCard)Stack[0];
+            Stack.Remove(popCard);
 
             return (popCard);
         }
 
-        public void placeInDeckFromList(List<Card> deck)
+        public void PlaceInDeckFromList(Deck deck)
         {
-            foreach (Card card in deck)
+            foreach (Card card in deck.Stack)
             {
-                stack.Add(card);
+                Stack.Add(card);
             }
-            shuffleDeck();
+            ShuffleDeck();
         }
         
-        public override void placeInDeck(Card c1, Card c2)
+        public override void PlaceInDeck(Card c1, Card c2)
         {
-            stack.Add(c1);
-            stack.Add(c2);
-            shuffleDeck();
+            Stack.Add(c1);
+            Stack.Add(c2);
+            ShuffleDeck();
         }
 
-        public override bool isEmpty()
+        public override bool IsEmpty()
         {
-            return (stack.Count <= 0);
+            return (Stack.Count <= 0);
         }
     }
 
@@ -215,8 +228,8 @@ public class carD_Logic
             this.face = f;
         }
 
-        public abstract void printCard();
-        public abstract int getFaceValue();
+        public abstract void PrintCard();
+        public abstract int GetFaceValue();
     }
 
     /// <summary>
@@ -224,17 +237,18 @@ public class carD_Logic
     /// </summary>
     public abstract class Deck
     {
-        public List<Card> stack;
+        public List<Card> Stack;
+        
 
         public Deck()
         {
-            this.stack = new List<Card>();
+            this.Stack = new List<Card>();
         }
 
-        public abstract void generateDeck();
-        public abstract void shuffleDeck();
-        public abstract Card drawCard();
-        public abstract void placeInDeck(Card c1, Card c2);
-        public abstract bool isEmpty();
+        public abstract void GenerateDeck();
+        public abstract void ShuffleDeck();
+        public abstract Card DrawCard();
+        public abstract void PlaceInDeck(Card c1, Card c2);
+        public abstract bool IsEmpty();
     }
 }

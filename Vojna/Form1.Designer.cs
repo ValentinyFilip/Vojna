@@ -1,8 +1,16 @@
-﻿namespace Vojna;
+﻿using System.ComponentModel;
 
+namespace Vojna;
 
-partial class Form1
-{
+partial class Form1 {
+    private Label WinPlayerOne;
+    private Label WinPlayerTwo;
+    private Thread _thread;
+
+    public delegate void Changetext(String playerOne, String playerTwo);
+
+    public Changetext myDelegate;
+
     /// <summary>
     ///  Required designer variable.
     /// </summary>
@@ -21,57 +29,57 @@ partial class Form1
         base.Dispose(disposing);
     }
 
-    private void newButtoN_Click(object sender, System.EventArgs e)
-    {
-        List<carD_Logic.WarCard> cards = vars.game.drawCard();
-        List<string> roundResults = vars.game.evaluateResults(cards[0], cards[1]);
-        MessageBox.Show($"{roundResults[0]}, won by {roundResults[1]}, \n with p1 card {cards[0].face} and p2 card {cards[1].face}");
-        int num;
-        string notNum;
-        if (roundResults[1] == "1")
-        {
-            int.TryParse(vars.winPlayerOne.Text, out num);
-            num += 1;
-            notNum = num.ToString();
-            vars.winPlayerOne.Text = notNum;
-        }
-        else if (roundResults[1] == "2")
-        {
-            int.TryParse(vars.winPlayerTwo.Text, out num);
-            num += 1;
-            notNum = num.ToString();
-            vars.winPlayerTwo.Text = notNum;
-        }
-        else
-        {
-            vars.game.war();
-        }
-        
+    private void saveButton_Click(object sender, System.EventArgs e) {
+        InitiliazeLeaderBoard();
+    }
+
+    private void playButton_Click(object sender, System.EventArgs e) {
+        _thread = new Thread(new ThreadStart(ThreadFunction));
+        _thread.Start();
+    }
+
+    public void InitiliazeLeaderBoard() {
+        var leaderBoardForm = new leaderBoardForm();
+        leaderBoardForm.Show();
     }
 
     public void InitiliazeViewPort() {
-        Button newButton = new Button();
-        vars.winPlayerOne = new Label();
-        vars.winPlayerTwo = new Label();
+        Button playButton = new Button();
+        Button saveButton = new Button();
+        WinPlayerOne = new Label();
+        WinPlayerTwo = new Label();
 
-        newButton.Click += new EventHandler(newButtoN_Click);
-        newButton.Text = "Draw a card";
-        newButton.Location = new Point(350, 300);
-        newButton.Size = new Size(200, 50);
+        playButton.Click += new EventHandler(playButton_Click);
+        playButton.Text = "Draw a card";
+        playButton.Location = new Point(350, 300);
+        playButton.Size = new Size(200, 50);
+        
+        saveButton.Click += new EventHandler(saveButton_Click);
+        saveButton.Text = "Save score";
+        saveButton.Location = new Point(50, 300);
+        saveButton.Size = new Size(200, 50);
 
-        vars.winPlayerOne.Location = new Point(100, 50);
-        vars.winPlayerOne.Text = "0";
-        vars.winPlayerTwo.Text = "0";
-        vars.winPlayerTwo.Location = new Point(700, 50);
+        WinPlayerOne.Location = new Point(100, 50);
+        WinPlayerOne.Text = "0";
+        WinPlayerTwo.Text = "0";
+        WinPlayerTwo.Location = new Point(700, 50);
         
-        this.Controls.Add(newButton);
-        this.Controls.Add(vars.winPlayerTwo);
-        this.Controls.Add(vars.winPlayerOne);
+        this.Controls.Add(playButton);
+        this.Controls.Add(saveButton);
+        
+        Vars.Game = new CarDLogic();
+        Vars.Game.Initialize();
+        myDelegate = new Changetext(ChangeTextFunc);
+    }
 
-        vars.game = new carD_Logic();
-        vars.game.initialize();
-        
-        
+    private void ChangeTextFunc(String playerOne, String playerTwo) {
+        WinPlayerOne.Text = playerOne;
+        WinPlayerTwo.Text = playerTwo;
+    }
+
+    private void ThreadFunction() {
+        MyThreadClass myThreadObject = new MyThreadClass(this);
+        myThreadObject.Run();
     }
     
     #region Windows Form Designer generated code
@@ -88,4 +96,41 @@ partial class Form1
     }
 
     #endregion
+}
+
+class MyThreadClass {
+    private Form1 myForm1;
+
+    public MyThreadClass(Form1 myForm) {
+        myForm1 = myForm;
+    }
+
+    private void Round() {
+        List<CarDLogic.WarCard> cards = Vars.Game.DrawCard();
+        int roundResults = Vars.Game.EvaluateResults(cards[0], cards[1]);
+        if (roundResults == 1) {
+            Vars.PlayerOne.Wins += 1;
+        }
+        else if (roundResults == 2)
+        {
+            Vars.PlayerTwo.Wins += 1;
+        }
+        else {
+            roundResults = Vars.Game.War();
+            if (roundResults == 1) {
+                Vars.PlayerOne.Wins += 1;
+            }
+            else if (roundResults == 0) {
+                MessageBox.Show("one of the players run out of cards. Save your score"); 
+            }
+            else {
+                Vars.PlayerTwo.Wins += 1;
+            }
+        }
+    }
+    
+    public void Run() {
+        Round();
+        myForm1.BeginInvoke(myForm1.myDelegate,new Object[] {Vars.PlayerOne.Wins.ToString(), Vars.PlayerTwo.Wins.ToString()});
+    }
 }
