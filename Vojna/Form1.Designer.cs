@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Media;
 
 namespace Vojna;
 
@@ -70,6 +71,11 @@ partial class Form1 {
         Vars.Game = new CarDLogic();
         Vars.Game.Initialize();
         myDelegate = new Changetext(ChangeTextFunc);
+        string sCurrentDirectory = AppDomain.CurrentDomain.BaseDirectory;
+        string sFile = Path.Combine(sCurrentDirectory, @"..\..\..\bangr.wav");
+        string sFilePath = Path.GetFullPath(sFile);
+        System.Media.SoundPlayer sp = new SoundPlayer(sFilePath);
+        sp.PlayLooping();
     }
 
     private void ChangeTextFunc(String playerOne, String playerTwo) {
